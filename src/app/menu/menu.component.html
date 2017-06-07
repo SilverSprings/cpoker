@@ -1,0 +1,45 @@
+<div id="topMenu">
+	<div *ngIf="!registeredPlayer">
+		Choose your name : <input #nameChosen (keyup)="checkName(nameChosen.value)"> 
+		<button [disabled]="nameNotEntered" (click)="registerPlayer(nameChosen.value)"> Ready to go ! </button>
+	</div>
+	<div *ngIf="registeredPlayer && !gameCPUInProgress && !gameInProgress ">
+		<p> Dear {{player.pName }}, </p>
+		You can <button (click)="startGameCPU()"> start a game against CPU </button>
+		or select a room : 	<select [(ngModel)]="roomSelected" (focus)="chooseAnotherRoom=false">
+								<option *ngFor="let r of rooms" [ngValue]="r"> {{r.rName}} - {{r.rSeats}}/4 </option>
+								<option *ngIf="rooms.length == 0"> no room available </option>
+							</select>
+		and <button [disabled]="!roomSelected?.rSeats" (click)="startGame()"> start a game against other people </button>	
+		<p *ngIf="chooseAnotherRoom"> Choose another room ! No more seats available in {{ roomSelected.rName }} </p>
+	</div>		
+	<div *ngIf="rulesHidden">
+		<button (click)="showRules()"> Rules </button>
+	</div>
+	<div *ngIf="!rulesHidden">	
+		<button (click)="hideRules()"> Hide rules </button>
+	</div>
+</div>
+<div id="main">
+	<div id="gameIsHere"> </div>
+	<div *ngIf="gameCPUInProgress">
+		<p> You're playing as {{player.pName}} </p>
+		<app-botroom 
+		[playerName]="player.pName"
+		(gameOverCPU)="endGameCPU()">
+		</app-botroom>	
+	</div>
+	<div *ngIf="gameInProgress">
+		<p> You're playing as {{player.pName}} in {{ room.rName }} </p>
+		<!--app-cityroom
+		[player]="player"
+		[room]="room"
+		(gameOver)="endGame($event)"
+		></app-cityroom-->		
+	</div>	
+	<div id="rulesAreHere">
+		<!--app-rules [hidden]="rulesHidden"></app-rules-->
+		<a href="#gameIsHere"> Go back to the game </a>
+	</div>
+</div>
+<router-outlet></router-outlet>

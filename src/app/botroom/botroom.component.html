@@ -1,0 +1,23 @@
+<div *ngIf="readyToPlay" id="board">
+	<div id="player1">
+		<app-player
+		[player]="player"
+		(doneSorting)="humanPlayerReady($event)" ></app-player>
+	</div>
+	<div class="playerCPU">
+		<div id="player2">
+			<img src="assets/coverbluestack.png" class="otherPlayerCards">
+		</div>
+		<div id="player3">
+			<img src="assets/coverbluestacklayed.png" class="otherPlayerCards3">
+		</div>
+		<div id="player4">
+			<img src="assets/coverbluestack.png" class="otherPlayerCards">
+		</div>
+	</div>		
+</div>
+<div *ngIf="showResults">
+		<!--app-results
+		[allHands]="allHands"
+		(playAgain)="reload()"></app-results-->
+</div>
